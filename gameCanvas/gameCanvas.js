@@ -41,15 +41,34 @@
 	}
 
 	/*
+	 *	Parse the color to rgba format
+	 * */
+	function hexToRgba(hex) {
+		var rgba = 'rgba(0,0,0,0.2)';
+		
+		if(hex){
+			var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+			var r = parseInt(result[1], 16);
+			var g = parseInt(result[2], 16);
+			var	b = parseInt(result[3], 16);
+
+			rgba = 'rgba(' + r + ',' + g + ',' + b + ',0.2)';
+		}
+		
+		return rgba;
+	}
+
+	/*
 	 *	Draw a line
 	 * */
-	function drawLine(toX, toY, context) {
+	function drawLine(toX, toY, context, color) {
+		var rgba = hexToRgba(color);
 		context.beginPath();
 		context.moveTo(startX, startY);
 		context.lineWidth = 20;
 		context.lineCap = 'round';
-		context.strokeStyle = 'rgba(0,0,0,0.2)';
-		context.fillStyle = 'rgba(0,0,0,0.2)';
+		context.strokeStyle = rgba;
+		context.fillStyle = rgba;
 		context.lineTo(toX, toY);
 		context.stroke();
 	}
@@ -110,8 +129,9 @@
 		}
 		// only draw line with matched words
 		$gameGrid.totalRow = e.data.$gameGrid.find('tr').length;
-		if(isMatch($gameGrid, words, startCell, endCell)){
-			drawLine(endCell.mouseX, endCell.mouseY, ctx);
+		var isMatchResult = isMatch($gameGrid, words, startCell, endCell);
+		if(isMatchResult.color){
+			drawLine(endCell.mouseX, endCell.mouseY, ctx, isMatchResult.color);
 		}
 	}
 

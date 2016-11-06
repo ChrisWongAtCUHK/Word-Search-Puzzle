@@ -80,13 +80,18 @@ function isWordInList(word, words){
 			words[i].$item.find('span.inner')
 				.css({"color": "#808080"});
 
+			// this is for the canvas stroke style
+			var result = {};
+			result.color = words[i].color;
+			
 			// remove the word from the array
 			words.splice(i ,1);
-			return true;
+			return result;
 		}
 
 	}
-	return false;
+	var result = {};
+	return result;
 }
 
 /*
@@ -94,8 +99,5 @@ function isWordInList(word, words){
  * */
 function isMatch($gameGrid, words, startCell, endCell){
 	var word = getWord($gameGrid, startCell.x, startCell.y, endCell.x, endCell.y);
-	if(isWordInList(word, words)){
-		return true;
-	}
-	return false;
+	return isWordInList(word, words);
 }
