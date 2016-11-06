@@ -28,3 +28,6 @@ body {
 .gameWordList > ul > li{
 	list-style-type:none;
 }
+.gameWordList > ul > li > .outer > .inner{
+	font-size:1.5em;
+}

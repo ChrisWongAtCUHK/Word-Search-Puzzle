@@ -3,11 +3,50 @@
  */
 function startPuzzle(){
 	var puzzle = {};
-	puzzle.words = [ 
+	puzzle.words = 
+	[ 
 					{
 						"word": "apple",
 						"color": "#ff0000"
-					}];
+					},
+					{
+						"word": "boy",
+						"color": "#800000"
+					},
+					{
+						"word": "cat",
+						"color": "#ffff00"
+					},
+					{
+						"word": "dog",
+						"color": "#ffa500"
+					},
+					{
+						"word": "egg",
+						"color": "#00ffff"
+					},
+					{
+						"word": "fruit",
+						"color": "#0000ff"
+					},
+					{
+						"word": "girl",
+						"color": "#ff00ff"
+					},
+					{
+						"word": "home",
+						"color": "#ff0000"
+					},
+					{
+						"word": "ice",
+						"color": "#800080"
+					},
+					{
+						"word": "jungle",
+						"color": "#00ff00"
+					}
+	
+	];
 	puzzle.grid = 
 		[
 			'+', '+', '+', '+', '+', '+', '+', '+', '+', '+',  
