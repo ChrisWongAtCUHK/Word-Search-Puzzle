@@ -115,14 +115,23 @@
 		}
 	}
 
-	$.fn.gameCanvas = function($canvas, $canvasTemp, inputWords){
+	$.fn.gameCanvas = function($canvas, $canvasTemp, puzzle){
+		var tbody = this.find('tbody');
+		for(var row = 0; row < puzzle.size; row++){
+			var tr = $('<tr>');
+			for(var col = 0; col < puzzle.size; col++){
+				tr.append('<td>' + puzzle.grid[row * puzzle.size + col] + '</td>');		
+			}
+			tbody.append(tr);
+
+		}
 		canvas = $canvas[0];
 		ctx = canvas.getContext("2d");
 		ctxTemp = $canvasTemp[0].getContext("2d");
 		canvasOffset = $canvas.offset();
 		offsetX = canvasOffset.left;
 		offsetY = canvasOffset.top;
-		words = inputWords;
+		words = puzzle.words;
 
 		$canvasTemp.css({
 			left: -500,

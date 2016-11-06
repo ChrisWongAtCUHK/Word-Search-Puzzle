@@ -2,8 +2,9 @@
  * Start the puzzle 
  */
 function startPuzzle(){
-	var words = ['apple', 'boy', 'cat', 'dog', 'egg', 'fruit', 'girl', 'home', 'ice', 'jungle'];
-	var puzzle = 
+	var puzzle = {};
+	puzzle.words = ['apple', 'boy', 'cat', 'dog', 'egg', 'fruit', 'girl', 'home', 'ice', 'jungle'];
+	puzzle.grid = 
 		[
 			'+', '+', '+', '+', '+', '+', '+', '+', '+', '+',  
 			'+', '+', 't', '+', 'e', '+', '+', '+', '+', '+',  
@@ -17,18 +18,8 @@ function startPuzzle(){
 			'+', '+', '+', '+', 'y', '+', '+', '+', '+', '+'  
 		];
 
-	var gameGrid = $('#gameGrid tbody');
-	var size = 10;
-	for(var row = 0; row < size; row++){
-		var tr = $('<tr>');
-		for(var col = 0; col < size; col++){
-			tr.append('<td>' + puzzle[row * size + col] + '</td>');		
-		}
-		gameGrid.append(tr);
-
-	}
-
-	return words;
+	puzzle.size = 10;
+	return puzzle;
 }
 
 
