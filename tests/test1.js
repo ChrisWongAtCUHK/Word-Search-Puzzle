@@ -19,6 +19,7 @@ function startPuzzle(){
 		];
 
 	puzzle.size = 10;
+	puzzle.length = 300;
 	return puzzle;
 }
 

@@ -8,19 +8,12 @@
 		<script src="./gameCanvas/gameCanvas.js"></script>
 		<link rel="stylesheet" type="text/css" href="./gameCanvas/gameCanvas.css" />
 	</head>
-		<div class="gameCanvasWrapper">
-			<table id="gameGrid" class="gameGrid" width=300 height=300>
-				<thead></thead>
-				<tbody>
-				</tbody>
-			</table>
-			<canvas id="canvasTemp" class="canvasTemp" width=300 height=300></canvas>
-			<canvas id="canvas" class="canvas" width=300 height=300></canvas>
+		<div id="gameCanvasWrapper" class="gameCanvasWrapper">
 		</div>
 		<script>
 			$(function(){
 				var puzzle = startPuzzle();
-				$('#gameGrid').gameCanvas($('#canvas'), $('#canvasTemp'), puzzle);
+				$('#gameCanvasWrapper').gameCanvas(puzzle);
 			});
 		</script>
 	</body>

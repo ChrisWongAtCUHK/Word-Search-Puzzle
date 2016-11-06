@@ -115,8 +115,20 @@
 		}
 	}
 
-	$.fn.gameCanvas = function($canvas, $canvasTemp, puzzle){
-		var tbody = this.find('tbody');
+	$.fn.gameCanvas = function(puzzle){
+		var length = puzzle.length;
+
+		// create game grid
+		var $gameGrid = $('<table>')
+							.attr({
+								class: 'gameGrid',
+								width: length,
+								height: length
+							})
+							.append('<thead>')
+							.append('<tbody>')
+							.appendTo(this);
+		var tbody = $gameGrid.find('tbody');
 		for(var row = 0; row < puzzle.size; row++){
 			var tr = $('<tr>');
 			for(var col = 0; col < puzzle.size; col++){
@@ -125,6 +137,24 @@
 			tbody.append(tr);
 
 		}
+
+		// create canvasTemp
+		$canvasTemp = $('<canvas>')
+					.attr({
+						class: 'canvasTemp',
+						width:  length,
+						height: length
+					})
+					.appendTo(this);
+
+		// create canvas
+		$canvas = $('<canvas>')
+					.attr({
+						class: 'canvas',
+						width:  length,
+						height: length
+					})
+					.appendTo(this);
 		canvas = $canvas[0];
 		ctx = canvas.getContext("2d");
 		ctxTemp = $canvasTemp[0].getContext("2d");
@@ -138,15 +168,15 @@
 			top: 0
 		});
 
-		$canvas.mousedown({$gameGridCells: this.find('td'), $canvasTemp: $canvasTemp}, function (e) {
+		$canvas.mousedown({$gameGridCells: $gameGrid.find('td'), $canvasTemp: $canvasTemp}, function (e) {
 			handleMouseDown(e);
 		});
 
-		$canvas.mousemove({$gameGrid: this, $canvasTemp: $canvasTemp}, function (e) {
+		$canvas.mousemove({$gameGrid: $gameGrid, $canvasTemp: $canvasTemp}, function (e) {
 			handleMouseMove(e);
 		});
 
-		$canvas.mouseup({$gameGrid: this, $canvasTemp: $canvasTemp}, function (e) {
+		$canvas.mouseup({$gameGrid: $gameGrid, $canvasTemp: $canvasTemp}, function (e) {
 			handleMouseUp(e);
 		});
 	};
