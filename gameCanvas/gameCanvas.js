@@ -36,7 +36,8 @@
 		var returnCell = {};
 		
 		returnCell.mouseX = cell.position().left + parseInt(cell.width() / 2);
-		returnCell.mouseY = cell.position().top + parseInt(cell.height() / 2);
+		// hard code value
+		returnCell.mouseY = cell.position().top + parseInt(cell.height() / 2) + 5; 
 		returnCell.x = i;
 		returnCell.y = j;
 		
@@ -68,7 +69,7 @@
 		var rgba = hexToRgba(color);
 		context.beginPath();
 		context.moveTo(startX, startY);
-		context.lineWidth = cellWidth - 5;
+		context.lineWidth = cellWidth - 5; // hard code value
 		context.lineCap = 'round';
 		context.strokeStyle = rgba;
 		context.fillStyle = rgba;
@@ -119,8 +120,8 @@
 		// move temp canvas offscreen
 		// draw the user's line on the main canvas
 		isDown = false;
-		mouseX = parseInt(e.clientX - offsetX);
-		mouseY = parseInt(e.clientY - offsetY);
+		var mouseX = parseInt(e.clientX - offsetX);
+		var mouseY = parseInt(e.clientY - offsetY);
 		e.data.$canvasTemp.css({
 			left: -500,
 			top: 0
