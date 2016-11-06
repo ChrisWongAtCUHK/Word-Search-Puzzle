@@ -1,0 +1,27 @@
+body {
+    background-color: ivory;
+}
+.gameCanvasWrapper {
+    position:relative;
+    width:300px;
+    height:300px;
+}
+.canvas, .canvasTemp {
+    position:absolute;
+    top:0px;
+    left:0px;
+    border:1px solid blue;
+    width:100%;
+    height:100%;
+}
+.canvasTemp {
+    border:1.5px solid green;
+}
+.canvas {
+    border:1px solid red;
+}
+.gameGrid td{
+	text-align:center;
+	border-collapse: collapse; 
+	border-spacing:0; 
+}

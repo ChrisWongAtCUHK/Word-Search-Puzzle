@@ -2,16 +2,26 @@
 <html>
 	<head>
 		<title>Word Search Puzzle</title>
+		<script src="//code.jquery.com/jquery-1.9.1.js"></script>
+		<script src="./tests/test1.js"></script>
+		<script src="./gameCanvas/words.js"></script>
+		<script src="./gameCanvas/gameCanvas.js"></script>
+		<link rel="stylesheet" type="text/css" href="./gameCanvas/gameCanvas.css" />
 	</head>
-	<body>
-		<div id="wrapper">
-			<table id="gameGrid" width=300 height=300>
+		<div class="gameCanvasWrapper">
+			<table id="gameGrid" class="gameGrid" width=300 height=300>
 				<thead></thead>
 				<tbody>
 				</tbody>
 			</table>
-			<canvas id="canvasTemp" width=300 height=300></canvas>
-			<canvas id="canvas" width=300 height=300></canvas>
+			<canvas id="canvasTemp" class="canvasTemp" width=300 height=300></canvas>
+			<canvas id="canvas" class="canvas" width=300 height=300></canvas>
 		</div>
+		<script>
+			$(function(){
+				var words = startPuzzle();
+				$('#gameGrid').gameCanvas($('#canvas'), $('#canvasTemp'), words);
+			});
+		</script>
 	</body>
 </html>
