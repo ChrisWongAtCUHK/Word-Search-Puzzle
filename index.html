@@ -8,12 +8,13 @@
 		<script src="./gameCanvas/gameCanvas.js"></script>
 		<link rel="stylesheet" type="text/css" href="./gameCanvas/gameCanvas.css" />
 	</head>
-		<div id="gameCanvasWrapper" class="gameCanvasWrapper">
-		</div>
+	<body>
+		<table id="gameArea">
+		</table>
 		<script>
 			$(function(){
 				var puzzle = startPuzzle();
-				$('#gameCanvasWrapper').gameCanvas(puzzle);
+				$('#gameArea').gameCanvas(puzzle);
 			});
 		</script>
 	</body>
