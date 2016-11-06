@@ -203,7 +203,7 @@
 		for(var i = 0; i < words.length; i++){
 			words[i].$item = $('<li>').append($('<span>').attr('class', 'outer')
 								.append($('<span>').attr('class', 'inner')
-									.text(words[i].word))
+									.text(decodeURIComponent(words[i].word)))
 							);
 			$wordList.append(words[i].$item);
 		}
