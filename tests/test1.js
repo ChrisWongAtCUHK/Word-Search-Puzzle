@@ -3,7 +3,11 @@
  */
 function startPuzzle(){
 	var puzzle = {};
-	puzzle.words = ['apple', 'boy', 'cat', 'dog', 'egg', 'fruit', 'girl', 'home', 'ice', 'jungle'];
+	puzzle.words = [ 
+					{
+						"word": "apple",
+						"color": "#ff0000"
+					}];
 	puzzle.grid = 
 		[
 			'+', '+', '+', '+', '+', '+', '+', '+', '+', '+',  

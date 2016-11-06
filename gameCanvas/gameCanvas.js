@@ -178,9 +178,14 @@
 												.appendTo($gameAreaFirstRow)
 									);
 		
-		var wordList = $('<ul>').appendTo($gameWordList);
+		var $wordList = $('<ul>').appendTo($gameWordList);
+
 		for(var i = 0; i < words.length; i++){
-			wordList.append($('<li>').text(words[i]));
+			words[i].$item = $('<li>').append($('<span>').attr('class', 'outer')
+								.append($('<span>').attr('class', 'inner')
+									.text(words[i].word))
+							);
+			$wordList.append(words[i].$item);
 		}
 									
 		canvas = $canvas[0];

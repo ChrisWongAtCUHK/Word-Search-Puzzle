@@ -73,7 +73,14 @@ function getWord($gameGrid, startX, startY, endX, endY){
 function isWordInList(word, words){
 	for(var i = 0; i < words.length; i++){
 		var reversedWord = word.split('').reverse().join('');
-		if(word == words[i] || reversedWord == words[i]){
+		if(word == words[i].word || reversedWord == words[i].word){
+			// stroke the word
+			words[i].$item.find('span.outer')
+				.css({"color": words[i].color, "text-decoration": "line-through"});
+			words[i].$item.find('span.inner')
+				.css({"color": "#808080"});
+
+			// remove the word from the array
 			words.splice(i ,1);
 			return true;
 		}
