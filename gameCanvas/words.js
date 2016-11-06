@@ -73,7 +73,7 @@ function getWord($gameGrid, startX, startY, endX, endY){
 function isWordInList(word, words){
 	for(var i = 0; i < words.length; i++){
 		var reversedWord = word.split('').reverse().join('');
-		var wordInList = words[i].hiragana;
+		var wordInList = words[i].word;
 		if(word == wordInList || reversedWord == wordInList){
 			// stroke the word
 			words[i].$item.find('span.outer')

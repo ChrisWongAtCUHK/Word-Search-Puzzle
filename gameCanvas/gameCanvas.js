@@ -209,7 +209,7 @@
 		var $wordList = $('<ul>').appendTo($gameWordList);
 
 		for(var i = 0; i < words.length; i++){
-			var word = words[i].hiragana;
+			var word = words[i].word;
 
 			words[i].$item = $('<li>').append($('<span>').attr('class', 'outer')
 								.append($('<span>').attr('class', 'inner')
