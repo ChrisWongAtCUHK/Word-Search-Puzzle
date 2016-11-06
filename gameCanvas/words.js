@@ -73,7 +73,8 @@ function getWord($gameGrid, startX, startY, endX, endY){
 function isWordInList(word, words){
 	for(var i = 0; i < words.length; i++){
 		var reversedWord = word.split('').reverse().join('');
-		if(word == words[i].word || reversedWord == words[i].word){
+		var wordInList = parseHiragana(words[i].hiragana);
+		if(word == wordInList || reversedWord == wordInList){
 			// stroke the word
 			words[i].$item.find('span.outer')
 				.css({"color": words[i].color, "text-decoration": "line-through"});
@@ -100,4 +101,12 @@ function isWordInList(word, words){
 function isMatch($gameGrid, words, startCell, endCell){
 	var word = getWord($gameGrid, startCell.x, startCell.y, endCell.x, endCell.y);
 	return isWordInList(word, words);
+}
+
+/*
+ *	Parse to Hirakagna from encoded array 
+ * */
+function parseHiragana(encodedArray){
+	var hiragana = encodedArray.join('');
+	return decodeURIComponent(hiragana);
 }

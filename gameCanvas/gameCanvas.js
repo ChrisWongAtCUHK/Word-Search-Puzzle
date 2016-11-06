@@ -13,15 +13,18 @@
 	var startCell;
 	var endCell;
 	var words;
+
+	var cellLength;
+
 	
 	/*
 	 * Parse the mouse x,y coordinate to center accordingly
 	 */
-	function getCell($cells, x, y, size){
+	function getCell($cells, x, y){
 
 		// check the (x, y) coordinates
-		var i = parseInt((mouseX - 2) / size);
-		var j = parseInt((mouseY - 2) / size);
+		var i = parseInt((x - 2) / cellLength);
+		var j = parseInt((y - 2) / cellLength);
 
 		// out of bound
 		if(i < 0 || j < 0){
@@ -36,7 +39,7 @@
 		returnCell.mouseY = cell.position().top + parseInt(cell.height() / 2);
 		returnCell.x = i;
 		returnCell.y = j;
-
+		
 		return returnCell;
 	}
 
@@ -65,7 +68,7 @@
 		var rgba = hexToRgba(color);
 		context.beginPath();
 		context.moveTo(startX, startY);
-		context.lineWidth = 20;
+		context.lineWidth = cellWidth - 5;
 		context.lineCap = 'round';
 		context.strokeStyle = rgba;
 		context.fillStyle = rgba;
@@ -75,10 +78,10 @@
 
 	function handleMouseDown(e){
 		e.preventDefault();
-		mouseX = parseInt(e.clientX - offsetX);
-		mouseY = parseInt(e.clientY - offsetY);
+		var mouseX = parseInt(e.clientX - offsetX);
+		var mouseY = parseInt(e.clientY - offsetY);
 
-		startCell = getCell(e.data.$gameGridCells, mouseX, mouseY, 30);
+		startCell = getCell(e.data.$gameGridCells, mouseX, mouseY);
 		// save drag-startXY, 
 		// move temp canvas over main canvas,
 		// set dragging flag
@@ -99,8 +102,8 @@
 		if (!isDown) {
 			return;
 		}
-		mouseX = parseInt(e.clientX - offsetX);
-		mouseY = parseInt(e.clientY - offsetY);
+		var mouseX = parseInt(e.clientX - offsetX);
+		var mouseY = parseInt(e.clientY - offsetY);
 		// clear the temp canvas
 		// on temp canvas draw a line from drag-start to mouseXY
 		ctxTemp.clearRect(0, 0, e.data.$canvasTemp.width(), e.data.$canvasTemp.height());
@@ -123,7 +126,7 @@
 			top: 0
 		});
 		var $gameGrid = e.data.$gameGrid.find('td');
-		endCell = getCell($gameGrid, mouseX, mouseY, 30);
+		endCell = getCell($gameGrid, mouseX, mouseY);
 		if(endCell == null){
 			return;
 		}
@@ -148,6 +151,7 @@
 												.appendTo($gameAreaFirstRow)
 									);
 		var length = puzzle.length;
+		cellLength = puzzle.length / puzzle.size;
 
 		// create game grid
 		var $gameGrid = $('<table>')
@@ -163,11 +167,14 @@
 		for(var row = 0; row < puzzle.size; row++){
 			var tr = $('<tr>');
 			for(var col = 0; col < puzzle.size; col++){
-				tr.append('<td>' + puzzle.grid[row * puzzle.size + col] + '</td>');		
+				tr.append($('<td>', {width: puzzle.cellSize, height: puzzle.cellSize})
+							.text(decodeURIComponent(puzzle.grid[row * puzzle.size + col])));		
 			}
 			tbody.append(tr);
 
 		}
+		cellWidth = tbody.find('td').first().outerWidth();
+		cellHeight = tbody.find('td').first().outerHeight();
 
 		// create canvasTemp
 		$canvasTemp = $('<canvas>')
@@ -201,9 +208,12 @@
 		var $wordList = $('<ul>').appendTo($gameWordList);
 
 		for(var i = 0; i < words.length; i++){
+			var word = parseHiragana(words[i].hiragana);
+
 			words[i].$item = $('<li>').append($('<span>').attr('class', 'outer')
 								.append($('<span>').attr('class', 'inner')
-									.text(decodeURIComponent(words[i].word)))
+									.text(word)
+								)
 							);
 			$wordList.append(words[i].$item);
 		}

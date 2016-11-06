@@ -3,8 +3,6 @@ body {
 }
 .gameCanvasWrapper {
     position:relative;
-    width:300px;
-    height:300px;
 }
 .canvas, .canvasTemp {
     position:absolute;
