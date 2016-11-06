@@ -81,6 +81,12 @@ function startPuzzle(){
 			'+' , '+' , '+' , g[4], '+' , '+' , '+' , '+' , '+' , e[2]  
 		];
 
+	var hiraganas = hiraganaList();
+	for(var index = 0; index < puzzle.grid.length; index++){
+		if(puzzle.grid[index] == '+'){
+			puzzle.grid[index] = hiraganas[index % hiraganas.length];
+		}
+	}
 	puzzle.size = 10;
 	puzzle.cellSize = 30;
 	puzzle.length = 350;
