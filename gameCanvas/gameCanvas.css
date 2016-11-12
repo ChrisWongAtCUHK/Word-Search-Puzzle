@@ -8,7 +8,6 @@ body {
     position:absolute;
     top:0px;
     left:0px;
-    border:1px solid blue;
     width:100%;
     height:100%;
 }
@@ -16,12 +15,16 @@ body {
     border:1.5px solid green;
 }
 .canvas {
-    border:1px solid red;
+}
+.gameGrid{
+	border-collapse:collapse;
+	border-spacing:0;
 }
 .gameGrid td{
 	text-align:center;
 	border-collapse: collapse; 
 	border-spacing:0; 
+	border:solid 1px;
 }
 .gameWordList > ul > li{
 	list-style-type:none;

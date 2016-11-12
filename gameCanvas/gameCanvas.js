@@ -35,7 +35,7 @@
 		// center x and y
 		var returnCell = {};
 		
-		returnCell.mouseX = cell.position().left + parseInt(cell.width() / 2);
+		returnCell.mouseX = cell.position().left + parseInt(cell.width() / 2) + 3;
 		// hard code value
 		returnCell.mouseY = cell.position().top + parseInt(cell.height() / 2) + 5; 
 		returnCell.x = i;
