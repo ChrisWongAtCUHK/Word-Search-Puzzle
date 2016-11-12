@@ -21,7 +21,7 @@ var Puzzle = function(words){
 	while(true){
 		// random a direction of 8
 		//var direction = Math.floor(Math.random() * 0);
-		var direction = 4;
+		var direction = 5;
 		var x = Math.floor(Math.random() * this.size);
 		// random y-coordinate
 		var y = Math.floor(Math.random() * this.size);
@@ -85,6 +85,17 @@ var Puzzle = function(words){
 
 				placed = isPlaced(this.grid, word, direction, this.size, x, y);
 				break;
+			// down-left
+			case 5:
+				// check the length of the word, if it is over the grid, if fails
+				var distX = x - word.length;
+				var distY = y + word.length;
+				if(distX < 0 || distY >= this.size){
+					break;
+				}
+
+				placed = isPlaced(this.grid, word, direction, this.size, x, y);
+				break;
 			default:
 				break;
 		}
@@ -119,6 +130,9 @@ function getGridPos(direction, size, x, y, i){
 		// down
 		case 4:
 			return size * (y + i) + x;
+		// down-left
+		case 5:
+			return size * (y + i) + (x - i);
 		default:
 			return -1;
 	}
