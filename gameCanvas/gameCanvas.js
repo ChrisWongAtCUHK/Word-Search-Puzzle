@@ -15,6 +15,7 @@
 	var words;
 
 	var cellLength;
+	var $gameFancybo;
 
 	
 	/*
@@ -136,6 +137,11 @@
 		var isMatchResult = isMatch($gameGrid, words, startCell, endCell);
 		if(isMatchResult.color){
 			drawLine(endCell.mouseX, endCell.mouseY, ctx, isMatchResult.color);
+			// show message to declare victory
+			if(words.length == 0){
+				$gameFancybox.text('Victory');
+				$.fancybox($gameFancybox);
+			}
 		}
 	}
 
@@ -242,5 +248,10 @@
 		$canvas.mouseup({$gameGrid: $gameGrid, $canvasTemp: $canvasTemp}, function (e) {
 			handleMouseUp(e);
 		});
+
+		// create the fancybox
+		$gameFancybox = $('<div>').attr('class', 'gameFancybox');
+		this.after($gameFancybox);
+
 	};
 }(jQuery));

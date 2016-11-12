@@ -4,6 +4,8 @@
 		<meta charset="utf-8">
 		<title>Word Search Puzzle</title>
 		<script src="//code.jquery.com/jquery-1.9.1.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" />
 		<script src="./gameCanvas/puzzle.js"></script>
 		<script src="./gameCanvas/words.js"></script>
 		<script src="./gameCanvas/gameCanvas.js"></script>
@@ -18,6 +20,7 @@
 				var words = startTest();
 				var puzzle = new Puzzle(words);
 				$('#gameArea').gameCanvas(puzzle);
+
 			});
 		</script>
 	</body>

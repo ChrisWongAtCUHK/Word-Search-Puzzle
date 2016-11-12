@@ -59,7 +59,7 @@ function startTest(){
 	for(var i = 0; i < 3; i++){
 		words3.push(words[i]);
 	}
-	return words;
+	return words3;
 }
 
 
