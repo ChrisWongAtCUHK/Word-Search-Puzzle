@@ -124,7 +124,7 @@
 		var mouseX = parseInt(e.clientX - offsetX);
 		var mouseY = parseInt(e.clientY - offsetY);
 		e.data.$canvasTemp.css({
-			left: -500,
+			left: -5000,
 			top: 0
 		});
 		var $gameGrid = e.data.$gameGrid.find('td');
@@ -140,12 +140,23 @@
 			// show message to declare victory
 			if(words.length == 0){
 				$gameFancybox.text('Victory');
-				$.fancybox($gameFancybox);
+				$.fancybox($gameFancybox, {
+					closeBtn : false,
+					keys : {
+						close: []		// no key for close
+					}
+				});
 			}
 		}
 	}
 
 	$.fn.gameCanvas = function(puzzle){
+		this.css('position', 'relative');
+
+		// create the fancybox
+		$gameFancybox = $('<div>').attr('class', 'gameFancybox');
+		this.after($gameFancybox);
+
 		var $gameAreaBody = $('<tbody>').appendTo(this);
 		var $gameAreaFirstRow = $('<tr>').appendTo($gameAreaBody);
 		// create game canvas wrapper
@@ -182,6 +193,9 @@
 		}
 		cellWidth = tbody.find('td').first().outerWidth();
 		cellHeight = tbody.find('td').first().outerHeight();
+		// place it to center
+		this.css('left', (this.parent().width() - this.width()) / 2 + 'px');
+
 
 		// create canvasTemp
 		$canvasTemp = $('<canvas>')
@@ -233,7 +247,7 @@
 		offsetY = canvasOffset.top;
 
 		$canvasTemp.css({
-			left: -500,
+			left: -5000,
 			top: 0
 		});
 
@@ -248,10 +262,7 @@
 		$canvas.mouseup({$gameGrid: $gameGrid, $canvasTemp: $canvasTemp}, function (e) {
 			handleMouseUp(e);
 		});
-
-		// create the fancybox
-		$gameFancybox = $('<div>').attr('class', 'gameFancybox');
-		this.after($gameFancybox);
+		
 
 	};
 }(jQuery));
