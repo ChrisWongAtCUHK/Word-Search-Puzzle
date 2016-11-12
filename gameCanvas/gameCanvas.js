@@ -15,7 +15,7 @@
 	var words;
 
 	var cellLength;
-	var $gameFancybo;
+	var $gameFancybox;
 
 	
 	/*
@@ -139,13 +139,18 @@
 			drawLine(endCell.mouseX, endCell.mouseY, ctx, isMatchResult.color);
 			// show message to declare victory
 			if(words.length == 0){
-				$gameFancybox.text('Victory');
+				$gameFancybox.append($('<div>').text('Victory'));
 				$.fancybox($gameFancybox, {
+					width: 900,
+					height: 700,
 					closeBtn : false,
 					keys : {
 						close: []		// no key for close
 					}
 				});
+
+				// place middle vertically
+				$gameFancybox.css('margin-top', ($gameFancybox.parent().height() - $gameFancybox.height()) / 2 + 'px');
 			}
 		}
 	}
