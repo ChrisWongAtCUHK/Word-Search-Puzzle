@@ -55,7 +55,11 @@ function startTest(){
 						"color": "#00ff00"
 					}
 	];
-	return words;
+	var words3 = [];
+	for(var i = 0; i < 3; i++){
+		words3.push(words[i]);
+	}
+	return words3;
 }
 
 

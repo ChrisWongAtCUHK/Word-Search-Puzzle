@@ -20,7 +20,8 @@ var Puzzle = function(words){
 	var index = 0;
 	while(true){
 		// random a direction of 8
-		var direction = Math.floor(Math.random() * 0) + 0;
+		//var direction = Math.floor(Math.random() * 0);
+		var direction = 1;
 		// random x-coordinate
 		var x = Math.floor(Math.random() * this.size);
 		// random y-coordinate
@@ -41,7 +42,6 @@ var Puzzle = function(words){
 
 				placed = isPlaced(this.grid, word, direction, this.size, x, y);
 				break;
-			default:
 			// up-right
 			case 1:
 				// check the length of the word, if it is over the grid, if fails
@@ -51,27 +51,9 @@ var Puzzle = function(words){
 					break;
 				}
 
-				var invalidCharacter = false;
-				// for each cell to be placed a character
-				for(var i = 0; i < word.length; i++){
-					var gridPos = this.size * (y - i) + i;
-					var character = this.grid[gridPos];
-
-					// check if it is empty
-					if(character.length == 0){
-						// if empty
-						this.grid[gridPos] = word[i];
-					} else if(character == words[i]){
-						// if not empty, check the equality
-						
-					} else {
-						// fail
-						invalidCharacter = true;
-						break;
-					}
-				}
-				placed = !invalidCharacter;
+				placed = isPlaced(this.grid, word, direction, this.size, x, y);
 				break;
+			default:
 				break;
 		}
 		// do the same word again
@@ -93,6 +75,9 @@ function getGridPos(direction, size, x, y, i){
 		// up
 		case 0:
 			return size * (y - i) + x;
+		// up-right
+		case 1:
+			return size * (y - i) + i;
 		default:
 			return -1;
 	}
@@ -127,7 +112,7 @@ function isPlaced(grid, word, direction, size, x, y){
 	if(!invalidCharacter){
 	
 		for(var i = 0; i < word.length; i++){
-			var gridPos = size * (y - i) + x;
+			var gridPos = getGridPos(direction, size, x, y, i);
 			grid[gridPos] = word[i];
 		}
 	}
