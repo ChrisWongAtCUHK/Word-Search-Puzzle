@@ -141,8 +141,6 @@
 			if(words.length == 0){
 				$gameFancybox.append($('<div>').text('Victory'));
 				$.fancybox($gameFancybox, {
-					width: 900,
-					height: 700,
 					closeBtn : false,
 					keys : {
 						close: []		// no key for close
@@ -156,11 +154,49 @@
 	}
 
 	$.fn.gameCanvas = function(puzzle){
-		this.css('position', 'relative');
-
 		// create the fancybox
 		$gameFancybox = $('<div>').attr('class', 'gameFancybox');
 		this.after($gameFancybox);
+		
+		// place it to center
+		this.css('position', 'relative');
+		this.css('left', (this.parent().width() - puzzle.length) / 2 + 'px');
+
+		// allow user input the words inside the fancybox
+		var $form = $('<table>')
+						.append(
+							$('<thead>')
+								.append(
+									$('<tr>')
+										.append($('<th>').text('Hiragana'))
+										.append($('<th>').text('Hint'))
+								)
+						)
+						.append($('<tbody>'));
+		$form.width(puzzle.length);
+
+		for(var i = 0 ; i < 1; i ++){
+		}
+
+		// confirm the words
+		var $confirm = $('<input>', {
+							type: 'button',
+							value: 'Confirm'
+						})
+						.click(function(){
+							$.fancybox.close();
+						});
+		$form.find('tbody')
+			.append(
+				$('<tr>').append($('<td>', { colspan: 2}).css("text-align", 'center').append($confirm))
+			);
+		$.fancybox($form, {
+			closeBtn : false,
+			keys : {
+				close: []		// no key for close
+			}
+		
+		});
 
 		var $gameAreaBody = $('<tbody>').appendTo(this);
 		var $gameAreaFirstRow = $('<tr>').appendTo($gameAreaBody);
@@ -198,8 +234,6 @@
 		}
 		cellWidth = tbody.find('td').first().outerWidth();
 		cellHeight = tbody.find('td').first().outerHeight();
-		// place it to center
-		this.css('left', (this.parent().width() - this.width()) / 2 + 'px');
 
 
 		// create canvasTemp
