@@ -127,7 +127,16 @@ var Puzzle = function(words){
 		index++;
 		if(index >= words.length)
 			break;
-	} 
+	}
+
+	// fill up the empty cells
+	var hiraganas = hiraganaList();
+	for(index = 0; index < this.grid.length; index++){
+		if(this.grid[index].length == 0){
+			var rand = Math.floor(Math.random() * hiraganas.length);
+			this.grid[index] = hiraganas[rand];
+		}
+	}
 };
 
 /*
