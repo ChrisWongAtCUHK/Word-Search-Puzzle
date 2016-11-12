@@ -20,8 +20,7 @@ var Puzzle = function(words){
 	var index = 0;
 	while(true){
 		// random a direction of 8
-		//var direction = Math.floor(Math.random() * 0);
-		var direction = 7;
+		var direction = Math.floor(Math.random() * 8);
 		var x = Math.floor(Math.random() * this.size);
 		// random y-coordinate
 		var y = Math.floor(Math.random() * this.size);
