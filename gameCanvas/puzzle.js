@@ -11,15 +11,16 @@ var Puzzle = function(words){
 	}
 
 	// hard coded values
-	this.size = 10;
-	this.cellSize = 30;
-	this.length = 350;
+	Puzzle.staticValues = {};
+	Puzzle.staticValues.size = 10;
+	Puzzle.staticValues.cellLength = 30;
+	Puzzle.staticValues.totalLength = 350;
 
-	this.grid = new Array(this.size * this.size);
+	this.grid = new Array(Puzzle.staticValues.size * Puzzle.staticValues.size);
 
-	for(var i = 0; i < this.size; i++){
-		for(var j = 0; j < this.size; j++){
-			this.grid[j * this.size + i] = '';
+	for(var i = 0; i < Puzzle.staticValues.size; i++){
+		for(var j = 0; j < Puzzle.staticValues.size; j++){
+			this.grid[j * Puzzle.staticValues.size + i] = '';
 		}
 	}
 
@@ -28,9 +29,9 @@ var Puzzle = function(words){
 	while(true){
 		// random a direction of 8
 		var direction = Math.floor(Math.random() * 8);
-		var x = Math.floor(Math.random() * this.size);
+		var x = Math.floor(Math.random() * Puzzle.staticValues.size);
 		// random y-coordinate
-		var y = Math.floor(Math.random() * this.size);
+		var y = Math.floor(Math.random() * Puzzle.staticValues.size);
 	
 		var placed = false;
 		
@@ -45,62 +46,62 @@ var Puzzle = function(words){
 					break;
 				}
 
-				placed = isPlaced(this.grid, word, direction, this.size, x, y);
+				placed = isPlaced(this.grid, word, direction, Puzzle.staticValues.size, x, y);
 				break;
 			// up-right
 			case 1:
 				// check the length of the word, if it is over the grid, if fails
 				var distX = x + word.length;
 				var distY = y - word.length;
-				if(distX >= this.size || distY < 0){
+				if(distX >= Puzzle.staticValues.size || distY < 0){
 					break;
 				}
 
-				placed = isPlaced(this.grid, word, direction, this.size, x, y);
+				placed = isPlaced(this.grid, word, direction, Puzzle.staticValues.size, x, y);
 				break;
 			// right
 			case 2:
 				// check the length of the word, if it is over the grid, if fails
 				var distX = x + word.length;
 				var distY = y;
-				if(distX >= this.size){
+				if(distX >= Puzzle.staticValues.size){
 					break;
 				}
 
-				placed = isPlaced(this.grid, word, direction, this.size, x, y);
+				placed = isPlaced(this.grid, word, direction, Puzzle.staticValues.size, x, y);
 				break;
 			// down-right
 			case 3:
 				// check the length of the word, if it is over the grid, if fails
 				var distX = x + word.length;
 				var distY = y + word.length;
-				if(distX >= this.size || distY >= this.size){
+				if(distX >= Puzzle.staticValues.size || distY >= Puzzle.staticValues.size){
 					break;
 				}
 
-				placed = isPlaced(this.grid, word, direction, this.size, x, y);
+				placed = isPlaced(this.grid, word, direction, Puzzle.staticValues.size, x, y);
 				break;
 			// down
 			case 4:
 				// check the length of the word, if it is over the grid, if fails
 				var distX = x;
 				var distY = y + word.length;
-				if(distY >= this.size){
+				if(distY >= Puzzle.staticValues.size){
 					break;
 				}
 
-				placed = isPlaced(this.grid, word, direction, this.size, x, y);
+				placed = isPlaced(this.grid, word, direction, Puzzle.staticValues.size, x, y);
 				break;
 			// down-left
 			case 5:
 				// check the length of the word, if it is over the grid, if fails
 				var distX = x - word.length;
 				var distY = y + word.length;
-				if(distX < 0 || distY >= this.size){
+				if(distX < 0 || distY >= Puzzle.staticValues.size){
 					break;
 				}
 
-				placed = isPlaced(this.grid, word, direction, this.size, x, y);
+				placed = isPlaced(this.grid, word, direction, Puzzle.staticValues.size, x, y);
 				break;
 			// left
 			case 6:
@@ -111,7 +112,7 @@ var Puzzle = function(words){
 					break;
 				}
 
-				placed = isPlaced(this.grid, word, direction, this.size, x, y);
+				placed = isPlaced(this.grid, word, direction, Puzzle.staticValues.size, x, y);
 				break;
 			// up-left
 			case 7:
@@ -122,7 +123,7 @@ var Puzzle = function(words){
 					break;
 				}
 
-				placed = isPlaced(this.grid, word, direction, this.size, x, y);
+				placed = isPlaced(this.grid, word, direction, Puzzle.staticValues.size, x, y);
 				break;
 			default:
 				break;
@@ -217,3 +218,4 @@ function isPlaced(grid, word, direction, size, x, y){
 	// any invalid character would result in placement failure
 	return !invalidCharacter;
 }
+

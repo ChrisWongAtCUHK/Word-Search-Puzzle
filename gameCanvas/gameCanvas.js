@@ -160,7 +160,7 @@
 		
 		// place it to center
 		this.css('position', 'relative');
-		this.css('left', (this.parent().width() - puzzle.length) / 2 + 'px');
+		this.css('left', (this.parent().width() - Puzzle.staticValues.totalLength) / 2 + 'px');
 
 		// allow user input the words inside the fancybox
 		words = [];
@@ -174,7 +174,7 @@
 								)
 						)
 						.append($('<tbody>'));
-		$form.width(puzzle.length);
+		$form.width(Puzzle.staticValues.totalLength);
 
 		for(var i = 0 ; i < 2; i ++){
 			var $hiragana = $('<input>', {type: 'text', class: 'hiraganaText', id:'hiraganaText-' + i});
@@ -221,8 +221,8 @@
 											$('<td>')
 												.appendTo($gameAreaFirstRow)
 									);
-		var length = puzzle.length;
-		cellLength = puzzle.length / puzzle.size;
+		var length = Puzzle.staticValues.totalLength;
+		cellLength = Puzzle.staticValues.totalLength / Puzzle.staticValues.size;
 
 		// create game grid
 		var $gameGrid = $('<table>')
@@ -235,11 +235,11 @@
 							.append('<tbody>')
 							.appendTo($gameCanvasWrapper);
 		var tbody = $gameGrid.find('tbody');
-		for(var row = 0; row < puzzle.size; row++){
+		for(var row = 0; row < Puzzle.staticValues.size; row++){
 			var tr = $('<tr>');
-			for(var col = 0; col < puzzle.size; col++){
-				tr.append($('<td>', {width: puzzle.cellSize, height: puzzle.cellSize})
-							.text(decodeURIComponent(puzzle.grid[row * puzzle.size + col])));		
+			for(var col = 0; col < Puzzle.staticValues.size; col++){
+				tr.append($('<td>', {width: Puzzle.staticValues.cellLength, height: Puzzle.staticValues.cellLength})
+							.text(decodeURIComponent(puzzle.grid[row * Puzzle.staticValues.size + col])));		
 			}
 			tbody.append(tr);
 
