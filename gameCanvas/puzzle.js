@@ -3,24 +3,22 @@
 var colors = ["#ff0000", "#800000", "#ffff00", "#ffa500", "#00ffff", "#0000ff", "#ff00ff", "#ff0000", "#800080", "#00ff00"]
 
 var Puzzle = function(words){
+	if(words.length ==0 ){
+		// do nothing
+		return;
+	}
 	this.words = words;
-
+	
 	// assign the colors
 	for(var i = 0; i < this.words.length; i++){
 		this.words[i].color = colors[i % colors.length];
 	}
 
-	// hard coded values
-	Puzzle.staticValues = {};
-	Puzzle.staticValues.size = 10;
-	Puzzle.staticValues.cellLength = 30;
-	Puzzle.staticValues.totalLength = 350;
+	this.grid = new Array(Puzzle.getStaticValues().size * Puzzle.getStaticValues().size);
 
-	this.grid = new Array(Puzzle.staticValues.size * Puzzle.staticValues.size);
-
-	for(var i = 0; i < Puzzle.staticValues.size; i++){
-		for(var j = 0; j < Puzzle.staticValues.size; j++){
-			this.grid[j * Puzzle.staticValues.size + i] = '';
+	for(var i = 0; i < Puzzle.getStaticValues().size; i++){
+		for(var j = 0; j < Puzzle.getStaticValues().size; j++){
+			this.grid[j * Puzzle.getStaticValues().size + i] = '';
 		}
 	}
 
@@ -29,9 +27,9 @@ var Puzzle = function(words){
 	while(true){
 		// random a direction of 8
 		var direction = Math.floor(Math.random() * 8);
-		var x = Math.floor(Math.random() * Puzzle.staticValues.size);
+		var x = Math.floor(Math.random() * Puzzle.getStaticValues().size);
 		// random y-coordinate
-		var y = Math.floor(Math.random() * Puzzle.staticValues.size);
+		var y = Math.floor(Math.random() * Puzzle.getStaticValues().size);
 	
 		var placed = false;
 		
@@ -46,62 +44,62 @@ var Puzzle = function(words){
 					break;
 				}
 
-				placed = isPlaced(this.grid, word, direction, Puzzle.staticValues.size, x, y);
+				placed = isPlaced(this.grid, word, direction, Puzzle.getStaticValues().size, x, y);
 				break;
 			// up-right
 			case 1:
 				// check the length of the word, if it is over the grid, if fails
 				var distX = x + word.length;
 				var distY = y - word.length;
-				if(distX >= Puzzle.staticValues.size || distY < 0){
+				if(distX >= Puzzle.getStaticValues().size || distY < 0){
 					break;
 				}
 
-				placed = isPlaced(this.grid, word, direction, Puzzle.staticValues.size, x, y);
+				placed = isPlaced(this.grid, word, direction, Puzzle.getStaticValues().size, x, y);
 				break;
 			// right
 			case 2:
 				// check the length of the word, if it is over the grid, if fails
 				var distX = x + word.length;
 				var distY = y;
-				if(distX >= Puzzle.staticValues.size){
+				if(distX >= Puzzle.getStaticValues().size){
 					break;
 				}
 
-				placed = isPlaced(this.grid, word, direction, Puzzle.staticValues.size, x, y);
+				placed = isPlaced(this.grid, word, direction, Puzzle.getStaticValues().size, x, y);
 				break;
 			// down-right
 			case 3:
 				// check the length of the word, if it is over the grid, if fails
 				var distX = x + word.length;
 				var distY = y + word.length;
-				if(distX >= Puzzle.staticValues.size || distY >= Puzzle.staticValues.size){
+				if(distX >= Puzzle.getStaticValues().size || distY >= Puzzle.getStaticValues().size){
 					break;
 				}
 
-				placed = isPlaced(this.grid, word, direction, Puzzle.staticValues.size, x, y);
+				placed = isPlaced(this.grid, word, direction, Puzzle.getStaticValues().size, x, y);
 				break;
 			// down
 			case 4:
 				// check the length of the word, if it is over the grid, if fails
 				var distX = x;
 				var distY = y + word.length;
-				if(distY >= Puzzle.staticValues.size){
+				if(distY >= Puzzle.getStaticValues().size){
 					break;
 				}
 
-				placed = isPlaced(this.grid, word, direction, Puzzle.staticValues.size, x, y);
+				placed = isPlaced(this.grid, word, direction, Puzzle.getStaticValues().size, x, y);
 				break;
 			// down-left
 			case 5:
 				// check the length of the word, if it is over the grid, if fails
 				var distX = x - word.length;
 				var distY = y + word.length;
-				if(distX < 0 || distY >= Puzzle.staticValues.size){
+				if(distX < 0 || distY >= Puzzle.getStaticValues().size){
 					break;
 				}
 
-				placed = isPlaced(this.grid, word, direction, Puzzle.staticValues.size, x, y);
+				placed = isPlaced(this.grid, word, direction, Puzzle.getStaticValues().size, x, y);
 				break;
 			// left
 			case 6:
@@ -112,7 +110,7 @@ var Puzzle = function(words){
 					break;
 				}
 
-				placed = isPlaced(this.grid, word, direction, Puzzle.staticValues.size, x, y);
+				placed = isPlaced(this.grid, word, direction, Puzzle.getStaticValues().size, x, y);
 				break;
 			// up-left
 			case 7:
@@ -123,7 +121,7 @@ var Puzzle = function(words){
 					break;
 				}
 
-				placed = isPlaced(this.grid, word, direction, Puzzle.staticValues.size, x, y);
+				placed = isPlaced(this.grid, word, direction, Puzzle.getStaticValues().size, x, y);
 				break;
 			default:
 				break;
@@ -219,3 +217,11 @@ function isPlaced(grid, word, direction, size, x, y){
 	return !invalidCharacter;
 }
 
+Puzzle.getStaticValues = function(){
+	// hard coded values
+	var staticValues = {};
+	staticValues.size = 10;
+	staticValues.cellLength = 30;
+	staticValues.totalLength = 350;
+	return staticValues;
+};

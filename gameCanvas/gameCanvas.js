@@ -13,9 +13,116 @@
 	var startCell;
 	var endCell;
 	var words;
+	var puzzle;
 
 	var cellLength;
 	var $gameFancybox;
+
+	function gg(){
+		var $gameAreaBody = $('<tbody>').appendTo(this);
+		var $gameAreaFirstRow = $('<tr>').appendTo($gameAreaBody);
+		// create game canvas wrapper
+		var $gameCanvasWrapper = $('<div>')
+									.attr({
+										class: 'gameCanvasWrapper'
+									})
+									.appendTo(
+											$('<td>')
+												.appendTo($gameAreaFirstRow)
+									);
+		var length = Puzzle.getStaticValues().totalLength;
+		cellLength = Puzzle.getStaticValues().totalLength / Puzzle.getStaticValues().size;
+
+		// create game grid
+		var $gameGrid = $('<table>')
+							.attr({
+								class: 'gameGrid',
+								width: length,
+								height: length
+							})
+							.append('<thead>')
+							.append('<tbody>')
+							.appendTo($gameCanvasWrapper);
+		var tbody = $gameGrid.find('tbody');
+		for(var row = 0; row < Puzzle.getStaticValues().size; row++){
+			var tr = $('<tr>');
+			for(var col = 0; col < Puzzle.getStaticValues().size; col++){
+				tr.append($('<td>', {width: Puzzle.getStaticValues().cellLength, height: Puzzle.getStaticValues().cellLength})
+							.text(decodeURIComponent(puzzle.grid[row * Puzzle.getStaticValues().size + col])));		
+			}
+			tbody.append(tr);
+
+		}
+		cellWidth = tbody.find('td').first().outerWidth();
+		cellHeight = tbody.find('td').first().outerHeight();
+
+
+		// create canvasTemp
+		$canvasTemp = $('<canvas>')
+					.attr({
+						class: 'canvasTemp',
+						width:  length,
+						height: length
+					})
+					.appendTo($gameCanvasWrapper);
+
+		// create canvas
+		$canvas = $('<canvas>')
+					.attr({
+						class: 'canvas',
+						width:  length,
+						height: length
+					})
+					.appendTo($gameCanvasWrapper);
+		
+		// create game word list
+		words = puzzle.words;
+		var $gameWordList = $('<div>')
+									.attr({
+										class: 'gameWordList'
+									})
+									.appendTo(
+											$('<td>')
+												.appendTo($gameAreaFirstRow)
+									);
+		
+		var $wordList = $('<ul>').appendTo($gameWordList);
+
+		for(var i = 0; i < words.length; i++){
+			var word = words[i].display;
+
+			words[i].$item = $('<li>').append($('<span>').attr('class', 'outer')
+								.append($('<span>').attr('class', 'inner')
+									.text(word)
+								)
+							);
+			$wordList.append(words[i].$item);
+		}
+									
+		canvas = $canvas[0];
+		ctx = canvas.getContext("2d");
+		ctxTemp = $canvasTemp[0].getContext("2d");
+		canvasOffset = $canvas.offset();
+		offsetX = canvasOffset.left;
+		offsetY = canvasOffset.top;
+
+		$canvasTemp.css({
+			left: -5000,
+			top: 0
+		});
+
+		$canvas.mousedown({$gameGridCells: $gameGrid.find('td'), $canvasTemp: $canvasTemp}, function (e) {
+			handleMouseDown(e);
+		});
+
+		$canvas.mousemove({$gameGrid: $gameGrid, $canvasTemp: $canvasTemp}, function (e) {
+			handleMouseMove(e);
+		});
+
+		$canvas.mouseup({$gameGrid: $gameGrid, $canvasTemp: $canvasTemp}, function (e) {
+			handleMouseUp(e);
+		});
+	}
 
 	
 	/*
@@ -153,14 +260,14 @@
 		}
 	}
 
-	$.fn.gameCanvas = function(puzzle){
+	$.fn.gameCanvas = function(){
 		// create the fancybox
 		$gameFancybox = $('<div>').attr('class', 'gameFancybox');
 		this.after($gameFancybox);
 		
 		// place it to center
 		this.css('position', 'relative');
-		this.css('left', (this.parent().width() - Puzzle.staticValues.totalLength) / 2 + 'px');
+		this.css('left', (this.parent().width() - Puzzle.getStaticValues().totalLength) / 2 + 'px');
 
 		// allow user input the words inside the fancybox
 		words = [];
@@ -174,7 +281,7 @@
 								)
 						)
 						.append($('<tbody>'));
-		$form.width(Puzzle.staticValues.totalLength);
+		$form.width(Puzzle.getStaticValues().totalLength);
 
 		for(var i = 0 ; i < 2; i ++){
 			var $hiragana = $('<input>', {type: 'text', class: 'hiraganaText', id:'hiraganaText-' + i});
@@ -187,15 +294,13 @@
 				);
 		}
 
-		// debug
-
-
 		// confirm the words
 		var $confirm = $('<input>', {
 							type: 'button',
 							value: 'Confirm'
 						})
 						.click(function(e){
+							puzzle = new Puzzle(words);
 							$.fancybox.close();
 						});
 		$form.find('tbody')
@@ -210,109 +315,6 @@
 		
 		});
 
-		var $gameAreaBody = $('<tbody>').appendTo(this);
-		var $gameAreaFirstRow = $('<tr>').appendTo($gameAreaBody);
-		// create game canvas wrapper
-		var $gameCanvasWrapper = $('<div>')
-									.attr({
-										class: 'gameCanvasWrapper'
-									})
-									.appendTo(
-											$('<td>')
-												.appendTo($gameAreaFirstRow)
-									);
-		var length = Puzzle.staticValues.totalLength;
-		cellLength = Puzzle.staticValues.totalLength / Puzzle.staticValues.size;
-
-		// create game grid
-		var $gameGrid = $('<table>')
-							.attr({
-								class: 'gameGrid',
-								width: length,
-								height: length
-							})
-							.append('<thead>')
-							.append('<tbody>')
-							.appendTo($gameCanvasWrapper);
-		var tbody = $gameGrid.find('tbody');
-		for(var row = 0; row < Puzzle.staticValues.size; row++){
-			var tr = $('<tr>');
-			for(var col = 0; col < Puzzle.staticValues.size; col++){
-				tr.append($('<td>', {width: Puzzle.staticValues.cellLength, height: Puzzle.staticValues.cellLength})
-							.text(decodeURIComponent(puzzle.grid[row * Puzzle.staticValues.size + col])));		
-			}
-			tbody.append(tr);
-
-		}
-		cellWidth = tbody.find('td').first().outerWidth();
-		cellHeight = tbody.find('td').first().outerHeight();
-
-
-		// create canvasTemp
-		$canvasTemp = $('<canvas>')
-					.attr({
-						class: 'canvasTemp',
-						width:  length,
-						height: length
-					})
-					.appendTo($gameCanvasWrapper);
-
-		// create canvas
-		$canvas = $('<canvas>')
-					.attr({
-						class: 'canvas',
-						width:  length,
-						height: length
-					})
-					.appendTo($gameCanvasWrapper);
-		
-		// create game word list
-		words = puzzle.words;
-		var $gameWordList = $('<div>')
-									.attr({
-										class: 'gameWordList'
-									})
-									.appendTo(
-											$('<td>')
-												.appendTo($gameAreaFirstRow)
-									);
-		
-		var $wordList = $('<ul>').appendTo($gameWordList);
-
-		for(var i = 0; i < words.length; i++){
-			var word = words[i].display;
-
-			words[i].$item = $('<li>').append($('<span>').attr('class', 'outer')
-								.append($('<span>').attr('class', 'inner')
-									.text(word)
-								)
-							);
-			$wordList.append(words[i].$item);
-		}
-									
-		canvas = $canvas[0];
-		ctx = canvas.getContext("2d");
-		ctxTemp = $canvasTemp[0].getContext("2d");
-		canvasOffset = $canvas.offset();
-		offsetX = canvasOffset.left;
-		offsetY = canvasOffset.top;
-
-		$canvasTemp.css({
-			left: -5000,
-			top: 0
-		});
-
-		$canvas.mousedown({$gameGridCells: $gameGrid.find('td'), $canvasTemp: $canvasTemp}, function (e) {
-			handleMouseDown(e);
-		});
-
-		$canvas.mousemove({$gameGrid: $gameGrid, $canvasTemp: $canvasTemp}, function (e) {
-			handleMouseMove(e);
-		});
-
-		$canvas.mouseup({$gameGrid: $gameGrid, $canvasTemp: $canvasTemp}, function (e) {
-			handleMouseUp(e);
-		});
 		
 
 	};
