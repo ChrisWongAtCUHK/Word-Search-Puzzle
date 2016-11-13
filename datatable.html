@@ -46,14 +46,14 @@
 					// limit the input data length
 					var index = dt.rows().data().length;
 					if(index < 3){
-						var row = dt.row.add([
+						row = dt.row.add([
 							$('#hiraganaInput').val(),
 							$('#hintInput').val(),
 							'<input type="button" value="-" id="removeBtn-' + index + '"/>'
 						]).draw( false );
 
-						$('#removeBtn-' + index).click(function(){
-							row.remove().draw();	
+						$('#removeBtn-' + index).click({dt: dt}, function(e){
+							e.data.dt.row($(this).parents('tr')).remove().draw();
 						});
 					}
 				} );

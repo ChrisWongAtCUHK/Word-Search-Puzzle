@@ -369,9 +369,15 @@
 					'<input type="button" value="-" id="removeBtn-' + index + '"/>'
 				]).draw(false);
 				
+				var $confirm = e.data.$confirm;
 				// for removal
-				$('#removeBtn-' + index).click(function(){
-					row.remove().draw();	
+				$('#removeBtn-' + index).click({"$dt": $dt, "$confirm": $confirm}, function(event){
+					// remove a row
+					event.data.$dt.row($(this).parents('tr')).remove().draw();
+					// disable the confirm button if necessary
+					if(event.data.$dt.rows().data().length == 0){
+						event.data.$confirm.prop('disabled', true);
+					}
 				});
 
 				// clear the text
@@ -379,7 +385,7 @@
 				$hintInput.val('');
 
 				// enable the confirm button
-				e.data.$confirm.prop('disabled', false);
+				$confirm.prop('disabled', false);
 			}
 		});
 		$formTbody.append($('<tr>').append($('<td>').append($displayTable)));
