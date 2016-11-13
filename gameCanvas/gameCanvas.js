@@ -332,21 +332,6 @@
 					sDom: 'rt'
 				});
 
-		$addWordBtn.on('click', function(){
-
-			// limit the input data length
-			if($dt.rows().data().length < 10){
-				$dt.row.add([
-					$hiraganaInput.val(),
-					$hintInput.val()
-				]).draw(false);
-
-				// clear the text
-				$hiraganaInput.val(''),
-				$hintInput.val('')
-			}
-		});
-		$formTbody.append($('<tr>').append($('<td>').append($displayTable)));
 		// confirm the words
 		var $confirm = $('<input>', {
 							type: 'button',
@@ -370,6 +355,25 @@
 							createGameCanvas();
 							$.fancybox.close();
 						});
+		$confirm.prop('disabled', true);
+		$addWordBtn.click({"$confirm": $confirm}, function(e){
+
+			// limit the input data length
+			if($dt.rows().data().length < 10){
+				$dt.row.add([
+					$hiraganaInput.val(),
+					$hintInput.val()
+				]).draw(false);
+
+				// clear the text
+				$hiraganaInput.val('');
+				$hintInput.val('');
+
+				// enable the confirm button
+				e.data.$confirm.prop('disabled', false);
+			}
+		});
+		$formTbody.append($('<tr>').append($('<td>').append($displayTable)));
 		$formTbody
 			.append(
 				$('<tr>').append($('<td>').css("text-align", 'center').append($confirm))
