@@ -20,6 +20,17 @@
 	var $gameFancybox;
 
 	/*
+	 * Enable the button to add word with conditional check
+	 * */
+	function enableAddWordBtn($hiraganaInput, $hintInput, $addWordBtn){
+		if($hiraganaInput.val().length > 0 && $hintInput.val().length > 0){
+			$addWordBtn.prop('disabled', false);
+		} else {
+			$addWordBtn.prop('disabled', true);
+		}
+	}
+
+	/*
 	 * Create game canvas in the game area
 	 * */
 	function createGameCanvas(){
@@ -284,7 +295,20 @@
 		// create datatable
 		var $hiraganaInput = $('<input>', {type: 'text'});
 		var $hintInput = $('<input>', {type: 'text'});
-		var $addWordBtn = $('<input>', {type: 'button', value:'Add'}).css('float', 'right');
+		var $addWordBtn = $('<input>', {type: 'button', value:'Add'}).prop('disabled', true).css('float', 'right');
+		$hiraganaInput.on('focusout', function(){
+			enableAddWordBtn($hiraganaInput, $hintInput, $addWordBtn);
+		});
+		$hiraganaInput.on('keyup', function(){
+			enableAddWordBtn($hiraganaInput, $hintInput, $addWordBtn);
+		});
+		$hintInput.on('focusout', function(){
+			enableAddWordBtn($hiraganaInput, $hintInput, $addWordBtn);
+		});
+		$hintInput.on('keyup', function(){
+			enableAddWordBtn($hiraganaInput, $hintInput, $addWordBtn);
+		});
+
 		var $displayTable = $('<table>', {class: 'display'}).css('width', '100%')
 								.append(
 										$('<thead>')
@@ -309,10 +333,6 @@
 				});
 
 		$addWordBtn.on('click', function(){
-			if($hiraganaInput.val().length == 0 || $hintInput.val().length ==0){
-				// empty input, do nothint
-				return;
-			}
 
 			// limit the input data length
 			if($dt.rows().data().length < 10){
