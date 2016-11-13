@@ -1,7 +1,14 @@
 'use strict'
 
+var colors = ["#ff0000", "#800000", "#ffff00", "#ffa500", "#00ffff", "#0000ff", "#ff00ff", "#ff0000", "#800080", "#00ff00"]
+
 var Puzzle = function(words){
 	this.words = words;
+
+	// assign the colors
+	for(var i = 0; i < this.words.length; i++){
+		this.words[i].color = colors[i % colors.length];
+	}
 
 	// hard coded values
 	this.size = 10;

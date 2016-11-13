@@ -163,7 +163,7 @@
 		this.css('left', (this.parent().width() - puzzle.length) / 2 + 'px');
 
 		// allow user input the words inside the fancybox
-		var wordsTemp = [];
+		words = [];
 		var $form = $('<table>')
 						.append(
 							$('<thead>')
@@ -177,22 +177,25 @@
 		$form.width(puzzle.length);
 
 		for(var i = 0 ; i < 2; i ++){
-			var $hiragana = $('<input>', {type: 'text'});
-			var $hint = $('<input>', {type: 'text'});
+			var $hiragana = $('<input>', {type: 'text', class: 'hiraganaText', id:'hiraganaText-' + i});
+			var $hint = $('<input>', {type: 'text', class: 'hintText', id: 'hintText-' + i});
 			$form.find('tbody')
 				.append(
-					$('<tr>', {class: 'wordRow'})
+					$('<tr>')
 						.append($('<td>').css("text-align", 'center').append($hiragana))
 						.append($('<td>').css("text-align", 'center').append($hint))
 				);
 		}
+
+		// debug
+
 
 		// confirm the words
 		var $confirm = $('<input>', {
 							type: 'button',
 							value: 'Confirm'
 						})
-						.click({words: wordsTemp}, function(e){
+						.click(function(e){
 							$.fancybox.close();
 						});
 		$form.find('tbody')
