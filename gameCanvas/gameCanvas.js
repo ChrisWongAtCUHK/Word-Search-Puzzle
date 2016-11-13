@@ -316,6 +316,7 @@
 												$('<tr>')
 													.append($('<th>', {text: 'Hiragana'}))
 													.append($('<th>', {text: 'Hint'}))
+													.append($('<th>'))
 											)
 								)
 								.append(
@@ -323,7 +324,8 @@
 										.append(
 											$('<tr>')
 												.append($('<th>').append($hiraganaInput))
-												.append($('<th>').append($hintInput).append($addWordBtn))
+												.append($('<th>').append($hintInput))
+												.append($('<th>').append($addWordBtn))
 										)
 								);
 
@@ -358,12 +360,19 @@
 		$confirm.prop('disabled', true);
 		$addWordBtn.click({"$confirm": $confirm}, function(e){
 
+			var index = $dt.rows().data().length;
 			// limit the input data length
-			if($dt.rows().data().length < 10){
-				$dt.row.add([
+			if(index < 10){
+				var row = $dt.row.add([
 					$hiraganaInput.val(),
-					$hintInput.val()
+					$hintInput.val(),
+					'<input type="button" value="-" id="removeBtn-' + index + '"/>'
 				]).draw(false);
+				
+				// for removal
+				$('#removeBtn-' + index).click(function(){
+					row.remove().draw();	
+				});
 
 				// clear the text
 				$hiraganaInput.val('');
