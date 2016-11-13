@@ -278,19 +278,65 @@
 
 		// allow user input the words inside the fancybox
 		words = [];
-		var $form = $('<table>').append($('<tbody>'));
-		$form.width(Puzzle.getStaticValues().totalLength);
+		var $form = $('<table>').css('width', '100%').append($('<tbody>'));
 		
 		var $formTbody = $form.find('tbody');
 		// create datatable
+		var $hiraganaInput = $('<input>', {type: 'text'});
+		var $hintInput = $('<input>', {type: 'text'});
+		var $addWordBtn = $('<input>', {type: 'button', value:'Add'}).css('float', 'right');
+		var $displayTable = $('<table>', {class: 'display'}).css('width', '100%')
+								.append(
+										$('<thead>')
+											.append(
+												$('<tr>')
+													.append($('<th>', {text: 'Hiragana'}))
+													.append($('<th>', {text: 'Hint'}))
+											)
+								)
+								.append(
+										$('<tfoot>')
+										.append(
+											$('<tr>')
+												.append($('<th>').append($hiraganaInput))
+												.append($('<th>').append($hintInput).append($addWordBtn))
+										)
+								);
 
+		var $dt = $displayTable.DataTable({
+					searching: false,
+					sDom: 'rt'
+				});
 
+		$addWordBtn.on('click', function(){
+			if($hiraganaInput.val().length == 0 || $hintInput.val().length ==0){
+				// empty input, do nothint
+				return;
+			}
+
+			// limit the input data length
+			if($dt.rows().data().length < 10){
+				$dt.row.add([
+					$hiraganaInput.val(),
+					$hintInput.val()
+				]).draw(false);
+
+				// clear the text
+				$hiraganaInput.val(''),
+				$hintInput.val('')
+			}
+		});
+		$formTbody.append($('<tr>').append($('<td>').append($displayTable)));
 		// confirm the words
 		var $confirm = $('<input>', {
 							type: 'button',
 							value: 'Confirm'
 						})
 						.click(function(e){
+							if($dt.rows().data().length == 0){
+								// no input, do nothing
+								return;
+							}
 							// get the data from user input
 							/*
 							var $text = $('.hiraganaText');
@@ -309,6 +355,9 @@
 				$('<tr>').append($('<td>').css("text-align", 'center').append($confirm))
 			);
 		$.fancybox($form, {
+			height: 300,
+			width: 400,
+			autoSize: false,
 			closeBtn : false,
 			keys : {
 				close: []		// no key for close

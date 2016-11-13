@@ -1,6 +1,9 @@
 body {
     background-color: ivory;
 }
+.display td{
+	text-align:center;
+}
 .gameCanvasWrapper {
     position:relative;
 }
