@@ -248,7 +248,7 @@
 			drawLine(endCell.mouseX, endCell.mouseY, ctx, isMatchResult.color);
 			// show message to declare victory
 			if(words.length == 0){
-				$gameFancybox.append($('<div>').text('Victory'));
+				$gameFancybox.append($('<div>').text('Chris Wong is handsome.'));
 				$.fancybox($gameFancybox, {
 					closeBtn : false,
 					keys : {
@@ -304,6 +304,14 @@
 							value: 'Confirm'
 						})
 						.click(function(e){
+							// get the data from user input
+							var $text = $('.hiraganaText');
+							for(var i = 0 ; i < $text.length; i++){
+								var word = {};
+								word.word = $('#hiraganaText-' + i).val();
+								word.display = $('#hintText-' + i).val();
+								words.push(word);
+							}
 							puzzle = new Puzzle(words);
 							createGameCanvas();
 							$.fancybox.close();
@@ -317,10 +325,6 @@
 			keys : {
 				close: []		// no key for close
 			}
-		
 		});
-
-		
-
 	};
 }(jQuery));
