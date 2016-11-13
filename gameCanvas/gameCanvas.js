@@ -290,7 +290,7 @@
 						.append($('<tbody>'));
 		$form.width(Puzzle.getStaticValues().totalLength);
 
-		for(var i = 0 ; i < 2; i ++){
+		for(var i = 0 ; i < 10; i ++){
 			var $hiragana = $('<input>', {type: 'text', class: 'hiraganaText', id:'hiraganaText-' + i});
 			var $hint = $('<input>', {type: 'text', class: 'hintText', id: 'hintText-' + i});
 			$form.find('tbody')
