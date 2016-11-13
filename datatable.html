@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Datatable</title>
+		<script src="//code.jquery.com/jquery-1.9.1.js"></script>
+		<script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
+		<style>
+			#example{
+				border-collapse:collapse;
+				border-spacing:0;
+				width:100%;
+			}
+			#example td{
+				text-align:center;
+			}
+			#addWord{
+				float:right;
+			}
+		</style>
+	</head>
+	<body>
+		<table id="example" class="display">
+			<thead>
+				<tr>
+					<th>Hiragana</th>
+					<th>Hint</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<th><input id="hiraganaInput" type="text" /></th>
+					<th><input id="hintInput" type="text" /><input id="addWord" type=button value="Add"></th>
+				</tr>
+			</tfoot>
+		</table>
+		<script>
+			$(function(){
+				var dt = $('#example').DataTable({
+					searching: false,
+					sDom: 'rt'
+				});
+
+				$('#addWord').on( 'click', function () {
+					// limit the input data length
+					if(dt.rows().data().length < 3){
+						dt.row.add([
+							$('#hiraganaInput').val(),
+							$('#hintInput').val(),
+						]).draw( false );
+					}
+				} );
+
+				// Automatically add a first row of data
+				$('#addRow').click();
+			});
+		</script>
+	</body>
+</html>

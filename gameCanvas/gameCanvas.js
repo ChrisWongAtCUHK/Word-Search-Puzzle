@@ -278,30 +278,13 @@
 
 		// allow user input the words inside the fancybox
 		words = [];
-		var $form = $('<table>')
-						.append(
-							$('<thead>')
-								.append(
-									$('<tr>')
-										.append($('<th>').text('Hiragana'))
-										.append($('<th>').text('Hint'))
-								)
-						)
-						.append($('<tbody>'));
+		var $form = $('<table>').append($('<tbody>'));
 		$form.width(Puzzle.getStaticValues().totalLength);
+		
+		var $formTbody = $form.find('tbody');
+		// create datatable
 
-		for(var i = 0 ; i < 10; i ++){
-			var $hiragana = $('<input>', {type: 'text', class: 'hiraganaText', id:'hiraganaText-' + i});
-			var $hint = $('<input>', {type: 'text', class: 'hintText', id: 'hintText-' + i});
-			$form.find('tbody')
-				.append(
-					$('<tr>')
-						.append($('<td>').css("text-align", 'center').append($hiragana))
-						.append($('<td>').css("text-align", 'center').append($hint))
-				);
-		}
 
-				
 		// confirm the words
 		var $confirm = $('<input>', {
 							type: 'button',
@@ -309,6 +292,7 @@
 						})
 						.click(function(e){
 							// get the data from user input
+							/*
 							var $text = $('.hiraganaText');
 							for(var i = 0 ; i < $text.length; i++){
 								var word = {};
@@ -317,12 +301,12 @@
 								words.push(word);
 							}
 							puzzle = new Puzzle(words);
-							createGameCanvas();
+							createGameCanvas();*/
 							$.fancybox.close();
 						});
-		$form.find('tbody')
+		$formTbody
 			.append(
-				$('<tr>').append($('<td>', { colspan: 2}).css("text-align", 'center').append($confirm))
+				$('<tr>').append($('<td>').css("text-align", 'center').append($confirm))
 			);
 		$.fancybox($form, {
 			closeBtn : false,
