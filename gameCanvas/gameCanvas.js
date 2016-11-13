@@ -333,21 +333,21 @@
 							value: 'Confirm'
 						})
 						.click(function(e){
-							if($dt.rows().data().length == 0){
-								// no input, do nothing
+							// get the data from datatable
+							var data = $dt.rows().data();
+							if(data.length == 0){
+								// no data, do nothing
 								return;
 							}
-							// get the data from user input
-							/*
-							var $text = $('.hiraganaText');
-							for(var i = 0 ; i < $text.length; i++){
+							// parse the data to words
+							for(var i = 0 ; i < data.length; i++){
 								var word = {};
-								word.word = $('#hiraganaText-' + i).val();
-								word.display = $('#hintText-' + i).val();
+								word.word = data[i][0];
+								word.display = data[i][1];
 								words.push(word);
 							}
 							puzzle = new Puzzle(words);
-							createGameCanvas();*/
+							createGameCanvas();
 							$.fancybox.close();
 						});
 		$formTbody
