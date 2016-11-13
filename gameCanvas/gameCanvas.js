@@ -250,6 +250,9 @@
 			if(words.length == 0){
 				$gameFancybox.append($('<div>').text('Chris Wong is handsome.'));
 				$.fancybox($gameFancybox, {
+					height: '100px',
+					width: '200px',
+					autoSize: false,
 					closeBtn : false,
 					keys : {
 						close: []		// no key for close
@@ -298,6 +301,7 @@
 				);
 		}
 
+				
 		// confirm the words
 		var $confirm = $('<input>', {
 							type: 'button',
@@ -326,5 +330,6 @@
 				close: []		// no key for close
 			}
 		});
+		
 	};
 }(jQuery));
