@@ -1,4 +1,5 @@
 (function($){
+	var vm;
 	var canvas;
 	var ctx;
 	var ctxTemp;
@@ -18,8 +19,11 @@
 	var cellLength;
 	var $gameFancybox;
 
-	function gg(){
-		var $gameAreaBody = $('<tbody>').appendTo(this);
+	/*
+	 * Create game canvas in the game area
+	 * */
+	function createGameCanvas(){
+		var $gameAreaBody = $('<tbody>').appendTo(vm);
 		var $gameAreaFirstRow = $('<tr>').appendTo($gameAreaBody);
 		// create game canvas wrapper
 		var $gameCanvasWrapper = $('<div>')
@@ -32,7 +36,7 @@
 									);
 		var length = Puzzle.getStaticValues().totalLength;
 		cellLength = Puzzle.getStaticValues().totalLength / Puzzle.getStaticValues().size;
-
+		
 		// create game grid
 		var $gameGrid = $('<table>')
 							.attr({
@@ -55,8 +59,7 @@
 		}
 		cellWidth = tbody.find('td').first().outerWidth();
 		cellHeight = tbody.find('td').first().outerHeight();
-
-
+		
 		// create canvasTemp
 		$canvasTemp = $('<canvas>')
 					.attr({
@@ -124,7 +127,6 @@
 		});
 	}
 
-	
 	/*
 	 * Parse the mouse x,y coordinate to center accordingly
 	 */
@@ -261,6 +263,8 @@
 	}
 
 	$.fn.gameCanvas = function(){
+		vm = this;
+
 		// create the fancybox
 		$gameFancybox = $('<div>').attr('class', 'gameFancybox');
 		this.after($gameFancybox);
@@ -301,6 +305,7 @@
 						})
 						.click(function(e){
 							puzzle = new Puzzle(words);
+							createGameCanvas();
 							$.fancybox.close();
 						});
 		$form.find('tbody')

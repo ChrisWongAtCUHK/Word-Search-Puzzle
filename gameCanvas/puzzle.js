@@ -3,23 +3,25 @@
 var colors = ["#ff0000", "#800000", "#ffff00", "#ffa500", "#00ffff", "#0000ff", "#ff00ff", "#ff0000", "#800080", "#00ff00"]
 
 var Puzzle = function(words){
-	if(words.length ==0 ){
-		// do nothing
-		return;
-	}
 	this.words = words;
 	
-	// assign the colors
-	for(var i = 0; i < this.words.length; i++){
-		this.words[i].color = colors[i % colors.length];
-	}
-
+	// empty grid init
 	this.grid = new Array(Puzzle.getStaticValues().size * Puzzle.getStaticValues().size);
-
+	
 	for(var i = 0; i < Puzzle.getStaticValues().size; i++){
 		for(var j = 0; j < Puzzle.getStaticValues().size; j++){
 			this.grid[j * Puzzle.getStaticValues().size + i] = '';
 		}
+	}
+
+	if(words.length == 0 ){
+		// do nothing
+		return;
+	}
+	
+	// assign the colors
+	for(var i = 0; i < this.words.length; i++){
+		this.words[i].color = colors[i % colors.length];
 	}
 
 	// for each word
