@@ -394,9 +394,6 @@
 				$('<tr>').append($('<td>').css("text-align", 'center').append($confirm))
 			);
 		$.fancybox($form, {
-			height: 300,
-			width: 400,
-			autoSize: false,
 			closeBtn : false,
 			keys : {
 				close: []		// no key for close
