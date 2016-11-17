@@ -276,7 +276,7 @@
 		}
 	}
 
-	$.fn.gameCanvas = function(){
+	$.fn.gameCanvas = function(inputPuzzle){
 		vm = this;
 
 		// create the fancybox
@@ -287,118 +287,122 @@
 		this.css('position', 'relative');
 		this.css('left', (this.parent().width() - Puzzle.getStaticValues().totalLength) / 2 + 'px');
 
-		// allow user input the words inside the fancybox
-		words = [];
-		var $form = $('<table>').css('width', '100%').append($('<tbody>'));
-		
-		var $formTbody = $form.find('tbody');
-		// create datatable
-		var $hiraganaInput = $('<input>', {type: 'text'});
-		var $hintInput = $('<input>', {type: 'text'});
-		var $addWordBtn = $('<input>', {type: 'button', value:'Add'}).prop('disabled', true).css('float', 'right');
-		$hiraganaInput.on('focusout', function(){
-			enableAddWordBtn($hiraganaInput, $hintInput, $addWordBtn);
-		});
-		$hiraganaInput.on('keyup', function(){
-			enableAddWordBtn($hiraganaInput, $hintInput, $addWordBtn);
-		});
-		$hintInput.on('focusout', function(){
-			enableAddWordBtn($hiraganaInput, $hintInput, $addWordBtn);
-		});
-		$hintInput.on('keyup', function(){
-			enableAddWordBtn($hiraganaInput, $hintInput, $addWordBtn);
-		});
+		if(inputPuzzle == undefined){
+			// allow user input the words inside the fancybox
+			words = [];
+			var $form = $('<table>').css('width', '100%').append($('<tbody>'));
+			
+			var $formTbody = $form.find('tbody');
+			// create datatable
+			var $hiraganaInput = $('<input>', {type: 'text'});
+			var $hintInput = $('<input>', {type: 'text'});
+			var $addWordBtn = $('<input>', {type: 'button', value:'Add'}).prop('disabled', true).css('float', 'right');
+			$hiraganaInput.on('focusout', function(){
+				enableAddWordBtn($hiraganaInput, $hintInput, $addWordBtn);
+			});
+			$hiraganaInput.on('keyup', function(){
+				enableAddWordBtn($hiraganaInput, $hintInput, $addWordBtn);
+			});
+			$hintInput.on('focusout', function(){
+				enableAddWordBtn($hiraganaInput, $hintInput, $addWordBtn);
+			});
+			$hintInput.on('keyup', function(){
+				enableAddWordBtn($hiraganaInput, $hintInput, $addWordBtn);
+			});
 
-		var $displayTable = $('<table>', {class: 'display'}).css('width', '100%')
-								.append(
-										$('<thead>')
+			var $displayTable = $('<table>', {class: 'display'}).css('width', '100%')
+									.append(
+											$('<thead>')
+												.append(
+													$('<tr>')
+														.append($('<th>', {text: 'Hiragana'}))
+														.append($('<th>', {text: 'Hint'}))
+														.append($('<th>'))
+												)
+									)
+									.append(
+											$('<tfoot>')
 											.append(
 												$('<tr>')
-													.append($('<th>', {text: 'Hiragana'}))
-													.append($('<th>', {text: 'Hint'}))
-													.append($('<th>'))
+													.append($('<th>').append($hiraganaInput))
+													.append($('<th>').append($hintInput))
+													.append($('<th>').append($addWordBtn))
 											)
-								)
-								.append(
-										$('<tfoot>')
-										.append(
-											$('<tr>')
-												.append($('<th>').append($hiraganaInput))
-												.append($('<th>').append($hintInput))
-												.append($('<th>').append($addWordBtn))
-										)
-								);
+									);
 
-		var $dt = $displayTable.DataTable({
-					searching: false,
-					sDom: 'rt'
-				});
+			var $dt = $displayTable.DataTable({
+						searching: false,
+						sDom: 'rt'
+					});
 
-		// confirm the words
-		var $confirm = $('<input>', {
-							type: 'button',
-							value: 'Confirm'
-						})
-						.click(function(e){
-							// get the data from datatable
-							var data = $dt.rows().data();
-							if(data.length == 0){
-								// no data, do nothing
-								return;
-							}
-							// parse the data to words
-							for(var i = 0 ; i < data.length; i++){
-								var word = {};
-								word.word = data[i][0];
-								word.display = data[i][1];
-								words.push(word);
-							}
-							puzzle = new Puzzle(words);
-							createGameCanvas();
-							$.fancybox.close();
-						});
-		$confirm.prop('disabled', true);
-		$addWordBtn.click({"$confirm": $confirm}, function(e){
+			// confirm the words
+			var $confirm = $('<input>', {
+								type: 'button',
+								value: 'Confirm'
+							})
+							.click(function(e){
+								// get the data from datatable
+								var data = $dt.rows().data();
+								if(data.length == 0){
+									// no data, do nothing
+									return;
+								}
+								// parse the data to words
+								for(var i = 0 ; i < data.length; i++){
+									var word = {};
+									word.word = data[i][0];
+									word.display = data[i][1];
+									words.push(word);
+								}
+								puzzle = new Puzzle(words);
+								createGameCanvas();
+								$.fancybox.close();
+							});
+			$confirm.prop('disabled', true);
+			$addWordBtn.click({"$confirm": $confirm}, function(e){
 
-			var index = $dt.rows().data().length;
-			// limit the input data length
-			if(index < 10){
-				var row = $dt.row.add([
-					$hiraganaInput.val(),
-					$hintInput.val(),
-					'<input type="button" value="-" id="removeBtn-' + index + '"/>'
-				]).draw(false);
-				
-				var $confirm = e.data.$confirm;
-				// for removal
-				$('#removeBtn-' + index).click({"$dt": $dt, "$confirm": $confirm}, function(event){
-					// remove a row
-					event.data.$dt.row($(this).parents('tr')).remove().draw();
-					// disable the confirm button if necessary
-					if(event.data.$dt.rows().data().length == 0){
-						event.data.$confirm.prop('disabled', true);
-					}
-				});
+				var index = $dt.rows().data().length;
+				// limit the input data length
+				if(index < 10){
+					var row = $dt.row.add([
+						$hiraganaInput.val(),
+						$hintInput.val(),
+						'<input type="button" value="-" id="removeBtn-' + index + '"/>'
+					]).draw(false);
+					
+					var $confirm = e.data.$confirm;
+					// for removal
+					$('#removeBtn-' + index).click({"$dt": $dt, "$confirm": $confirm}, function(event){
+						// remove a row
+						event.data.$dt.row($(this).parents('tr')).remove().draw();
+						// disable the confirm button if necessary
+						if(event.data.$dt.rows().data().length == 0){
+							event.data.$confirm.prop('disabled', true);
+						}
+					});
 
-				// clear the text
-				$hiraganaInput.val('');
-				$hintInput.val('');
+					// clear the text
+					$hiraganaInput.val('');
+					$hintInput.val('');
 
-				// enable the confirm button
-				$confirm.prop('disabled', false);
-			}
-		});
-		$formTbody.append($('<tr>').append($('<td>').append($displayTable)));
-		$formTbody
-			.append(
-				$('<tr>').append($('<td>').css("text-align", 'center').append($confirm))
-			);
-		$.fancybox($form, {
-			closeBtn : false,
-			keys : {
-				close: []		// no key for close
-			}
-		});
-		
+					// enable the confirm button
+					$confirm.prop('disabled', false);
+				}
+			});
+			$formTbody.append($('<tr>').append($('<td>').append($displayTable)));
+			$formTbody
+				.append(
+					$('<tr>').append($('<td>').css("text-align", 'center').append($confirm))
+				);
+			$.fancybox($form, {
+				closeBtn : false,
+				keys : {
+					close: []		// no key for close
+				}
+			});
+		} else {
+			puzzle = inputPuzzle;
+			createGameCanvas();
+		}
 	};
 }(jQuery));

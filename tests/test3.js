@@ -46,7 +46,7 @@ function startTest(){
 					}
 	];
 	var words3 = [];
-	for(var i = 0; i < 3; i++){
+	for(var i = 0; i < 4; i++){
 		words3.push(words[i]);
 	}
 	return words3;
